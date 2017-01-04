@@ -1,8 +1,10 @@
 package doublyLinkedlist;
 
+import java.util.Random;
+
 public class Doubly {
 
-	//14031264	 68, 69, 70, 73, 74, 77, 71, 83, 82, 67, 87, 80, 66, 75, 76, 81 
+	// 14031264 68, 69, 70, 73, 74, 77, 71, 83, 82, 67, 87, 80, 66, 75, 76, 81
 
 	int size = 0;
 	Node head = null;
@@ -13,132 +15,161 @@ public class Doubly {
 		if (size == 0) {
 			head = n;
 			tail = n;
-		}else {
+		} else {
 			n.next = head;
 			head = n;
 			head.previous = n;
+			
 		}
 		size++;
 		return n;
 	}
-	
-	public Node addAtEnd(int data){
+
+	public Node addAtEnd(int data) {
 		Node n = new Node(data);
-		if(size==0){
-			head=n;
-			tail=n;
-		}else{
+		if (size == 0) {
+			head = n;
+			tail = n;
+		} else {
 			tail.next = n;
 			n.previous = tail;
 			tail = n;
 		}
 		size++;
-		return n;	
-	}
-	
-	public Node addAfter(int data,Node afterNode){
-		
-		if(afterNode==tail)
-			return addAtEnd(data);
-		
-		Node n = new Node(data);
-		Node tempafterNode = afterNode.next;
-		
-		//Four prcocess necessary befor adding after a specific node
-		//Process:1 new node next place
-		n.next = tempafterNode ;
-		//Process:2 new node previous place
-		n.previous =afterNode;
-		//Process:3 after node next address assign
-		afterNode.next=n;
-		//Process:4 afterNode next node of previous assign  
-		tempafterNode.previous=n;
-		
-		size++;
-		return n;
-	}
-	
-	public Node addBefore(int data, Node beforeNode){
-		
-		if(beforeNode==head)
-			return addAtStart(data);
-		
-		Node n = new Node(data);
-		Node tempBeforeNode = beforeNode.previous;
-		
-		n.next = beforeNode;
-		n.previous = tempBeforeNode;
-		tempBeforeNode.next = n;
-		tempBeforeNode.previous=n;
-		size++;
-		
 		return n;
 	}
 
-	public void print(){
+	public Node addAfter(int data, Node afterNode) {
+
+		if (afterNode == tail)
+			return addAtEnd(data);
+
+		Node n = new Node(data);
+		Node tempafterNode = afterNode.next;
+
+		// Four prcocess necessary befor adding after a specific node
+		// Process:1 new node next place
+		n.next = tempafterNode;
+		// Process:2 new node previous place
+		n.previous = afterNode;
+		// Process:3 after node next address assign
+		afterNode.next = n;
+		// Process:4 afterNode next node of previous assign
+		tempafterNode.previous = n;
+
+		size++;
+		return n;
+	}
+
+	public Node addBefore(int data, Node beforeNode) {
+
+		if (beforeNode == head)
+			return addAtStart(data);
+
+		Node n = new Node(data);
+		Node tempBeforeNode = beforeNode.previous;
+
+		n.next = beforeNode;
+		n.previous = tempBeforeNode;
+		tempBeforeNode.next = n;
+		tempBeforeNode.previous = n;
+		size++;
+
+		return n;
+	}
+
+	public void print() {
 		Node temp = head;
 		
-		/*while(temp!=null){
-			System.out.println("Value:"+size+" Index: "+temp.data);
-			temp= temp.next;
+		while (temp != null) {
+			System.out.println("Value:"+temp.data);
+			temp = temp.next;
 		}
-		*/
 		
-		/*If you want to show index with each value the you can use below loop!
+		
+		/*
+		 * If you want to show index with each value the you can use below loop!
 		 */
-		int a=0;
-		while(a<size){
-			System.out.println("Index:"+a+" Value: "+temp.data);
-			temp= temp.next;
-			a++;
-		}
+		/*
+		 int a = 0; 
+		 while (a < size) {
+			 System.out.println("Index:" + a +" Value: " + temp.data);
+			 temp = temp.next; a++; 
+			 }*/
+		
 	}
-	
-	public void deleteFromStart(){
+
+	public void deleteFromStart() {
 		head = head.next;
 		size--;
 	}
-	public void deleteFromEnd(){
+
+	public void deleteFromEnd() {
 		tail = tail.previous;
-		size --; 
+		size--;
 	}
-	public void atIndex(int data,int size){
-		if(size>this.size){
+
+	public void atIndex(int data, int size) {
+		if (size > this.size) {
 			System.out.println("Your index is grater than size of list!");
 		}
 		Node temp = head;
-		while(size!=0){
+		while (size != 0) {
 			temp = temp.next;
-			size --;
+			size--;
 		}
 		addBefore(data, temp);
-			
+
 	}
+
+	public void sort(int num) {
+		Node temp = null;
+		Node traverse = head;
+		
+		Node n = new Node(num);
+		if (size == 0) {
+			head = n;
+			tail = n;
+			
+		}
+		if(num > head.data) {
+			while(traverse!=null){
+				
+				if( num > traverse.data) {
+				temp=traverse;
+				}
+				traverse = traverse.next;
+			}
+			addAfter(num, temp);
+		}
+		else if(num < head.data) {
+			Node tra = traverse;
+			addBefore(num,tra);
+		}else{
+			addAtStart(num);
+		}
+		size++;
+	}
+
 	public static void main(String args[]) {
-		Doubly ob = new Doubly();
+		Doubly ob = new Doubly();		
+		int [] ar = new int[]{ 68, 69, 70, 73, 74, 77, 71, 83, 82, 67, 87, 80, 66, 75, 76, 81};
 		
-		ob.addAtStart(2);
-		ob.addAtStart(1);
-		ob.addAtStart(50);
-		//Node y = ob.addAtEnd(-1);
-		//ob.addAfter(2, y);
-		ob.addAtEnd(3);
-		//ob.addAtEnd(-2);
-		ob.addAtEnd(4);
-		ob.addAtEnd(5);
-		ob.addAtEnd(6);
-		ob.addAtEnd(7);
-		ob.addAtEnd(8);
-		//ob.deleteFromStart();
-		//ob.deleteFromStart();
-		ob.deleteFromEnd();
-		ob.deleteFromEnd();
-		ob.atIndex(11,7);
+		for(int a=0;a<ar.length;a++){
+			ob.sort(ar[a]);
+			
+		}
 		
-		//When I want to add at index 1 or 2 or 3 then error occur 
-	
+		/*
+		 * ob.addAtStart(2); ob.addAtStart(1); ob.addAtStart(50); //Node y =
+		 * ob.addAtEnd(-1); //ob.addAfter(2, y); ob.addAtEnd(3);
+		 * //ob.addAtEnd(-2); ob.addAtEnd(4); ob.addAtEnd(5); ob.addAtEnd(6);
+		 * ob.addAtEnd(7); ob.addAtEnd(8); //ob.deleteFromStart();
+		 * //ob.deleteFromStart(); ob.deleteFromEnd(); ob.deleteFromEnd();
+		 * ob.atIndex(11,7);
+		 */
+		// When I want to add at index 1 or 2 or 3 then error occur
 		ob.print();
-		
 	}
 
 }
